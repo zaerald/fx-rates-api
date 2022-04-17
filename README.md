@@ -1,6 +1,6 @@
 <h1 align="center">FX Rates API</h1>
 
-Please check the [REQUIREMENTS.md](./REQUIREMENTS.md) to review the purpose of this project.
+Please check the [REQUIREMENTS.md](./REQUIREMENTS.md) to review the goal of this project.
 
 # Getting Started
 
@@ -25,9 +25,9 @@ Exchange 10 USD to PHP
 curl "$BASE_URL/exchange?base=USD&target=PHP&amount=10"
 ```
 
-Exchange 1.5 AED to PHP
+Exchange 1.5 AED to JPY
 ```shell
-curl "$BASE_URL/exchange?base=AED&target=PHP&amount=1.5"
+curl "$BASE_URL/exchange?base=AED&target=JPY&amount=1.5"
 ```
 
 ## Prerequisites
@@ -41,7 +41,8 @@ curl "$BASE_URL/exchange?base=AED&target=PHP&amount=1.5"
 
 ### Build
 
-```sh
+```shell
+# unix
 ./gradlew build
 
 # win
@@ -69,6 +70,9 @@ SET FX_API_KEY=<YOUR_TOKEN_HERE>
 docker compose up
 ```
 
+If you encounter ` => ERROR [...] COPY build/libs/fx-rates-api*.jar fx-rates-api.jar`, then that means the application is not yet built.
+Please check the "Build" section.
+
 **Gradle**
 
 You can run the application without performing the Gradle `build` task.
@@ -90,8 +94,10 @@ There are two providers for both the rate and symbols. The default provider is `
 
 ### exchangeratesapi.io
 
-- There’s a limit to the number of requests per month
-- For the full list of limitations, please check their [documentation](https://exchangeratesapi.io/documentation/).
+- FREE plan
+  - There’s a limit to the number of requests per month
+  - For the full list of limitations, please check their [documentation](https://exchangeratesapi.io/documentation/).
+  - We can't change the base currency, but we can use the list of rates with one base. The implication is that we have to derive our own rate. If the base currency of the provider has changed, the application will adapt. `EUR` is the base of the provider at the time of the development.
 
 ### Fake Provider
 
@@ -108,10 +114,10 @@ There are two providers for both the rate and symbols. The default provider is `
 
 The rates provided from the table is just a fake data, and not necessarily precise, this fake provider is only useful
 for testing the behavior of our service. They are just for demonstration purposes, and querying `USD` to `AED` for
-instance will not work, as there is no mapping between them. Please use the [exchangerates.io](http://exchangerates.io)
+instance will not work, as there is no mapping between them. Please use the [exchangeratesapi.io](http://exchangeratesapi.io)
 provider if you want to test with multiple currencies.
 
-Check "Changing providers" section on how to change a provider.
+Check "Changing Providers" section on how to change a provider.
 
 ## Changing Providers
 
@@ -151,12 +157,12 @@ curl "$BASE_URL/provider"
 
 # Notes
 
-- Buying and selling currencies, will use the `/api/exchange` endpoint. Both of them will provide `base`, `target`, and the `amount` just in different context.
+- Buying and selling currencies will both use the `/api/exchange` endpoint. Both of them will provide `base`, `target`, and the `amount`, just in different context.
   - For instance, when a user wants to BUY `USD` to another party, and they want to spend 10 `PHP`, they will have `/api/exchange?base=PHP&target=USD&amount=10`.
   - If they are going to SELL 100 `PHP` to another party with `AED` currency, they will have `/api/exchange?base=PHP&target=AED&amount=100`.
 - We are only exposing three endpoints.
   - `GET /api/exchange` - the only responsibility of this endpoint is to provide the value based from the derived `rate` of `base` and `target` currency. Selling and buying foreign currency can both use this endpoint, they just need to switch out the `base` and `target`.
-  - `GET /api/symbols` - list supported currency symbols
+  - `GET /api/symbols` - lists supported currency symbols
   - `GET /api/provider` - to easily verify what provider is in use.
     - exchange rates - default provider
     - fake provider - provides limited symbols and rates
@@ -166,4 +172,4 @@ curl "$BASE_URL/provider"
   - Better handling of Access Token, we can set up a config server for the application bootstrap
   - Ability to configure API timeouts
   - Rate limiting and rate throttling
-  - Better API client design for future work if required, but right now, we only want to build URLs based on a path, it limits building complex queries.- 
+  - Better API client design for future work if required, but right now, we only want to build URLs based on a path, it limits building complex queries.
