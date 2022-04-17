@@ -10,8 +10,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.util.NestedServletException;
 
+import javax.validation.ConstraintViolationException;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -89,4 +95,19 @@ class ExchangeControllerTest {
         ).andExpect(status().isNotFound());
     }
 
+    @Test
+    @DisplayName("GIVEN amount AND less than one THEN do not proceed with the exchange")
+    void testExchangeRateAmountShouldBeAtLeastEqualToOne() throws Exception {
+        String base = "PHP";
+        String target = "USD";
+
+        var request = MockMvcRequestBuilders.get("/api/exchange")
+            .param("base", base)
+            .param("target", target)
+            .param("amount", "0");
+
+        assertThatThrownBy(() ->
+            mockMvc.perform(request)
+        ).hasCauseInstanceOf(ConstraintViolationException.class);
+    }
 }
