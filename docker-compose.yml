@@ -1,0 +1,9 @@
+services:
+  fx-rates-api:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}"
+      - "FX_API_KEY=${FX_API_KEY}"

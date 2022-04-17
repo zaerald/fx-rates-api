@@ -35,6 +35,7 @@ curl "$BASE_URL/exchange?base=AED&target=PHP&amount=1.5"
 - Java 11
 - API key from https://exchangeratesapi.io
   - Use `fake` provider if you do not want to sign up. See "Changing Providers" section.
+- Docker engine - optional if you want to run the application via Gradle
 
 ## Development
 
@@ -49,11 +50,35 @@ gradlew.bat build
 
 ### Running
 
-```sh
+**Docker**
+
+Please ensure that the application is already built. See "Build" section for more details.
+
+```shell
+# perform build first
+docker compose up
+```
+Please provide your access token in the [.env](./.env) file. Or run it with
+
+```shell
 # unix
-./gradlew bootRun
+FX_API_KEY=<YOUR_TOKEN_HERE> docker compose up
 
 # win
+SET FX_API_KEY=<YOUR_TOKEN_HERE>
+docker compose up
+```
+
+**Gradle**
+
+You can run the application without performing the Gradle `build` task.
+
+```shell
+# unix
+FX_API_KEY=<YOUR_TOKEN_HERE> ./gradlew bootRun
+
+# win
+SET FX_API_KEY=<YOUR_TOKEN_HERE>
 gradlew.bat bootRun
 ```
 
@@ -98,7 +123,15 @@ This is the default provider. Check the "Running" section.
 
 You can change it to a `fake` provider by changing the active profile to `local`.
 
-```bash
+**Docker**
+
+```shell
+docker compose --env-file ./config/.env.local up
+```
+
+**Gradle**
+
+```shell
 # unix
 SPRING_PROFILES_ACTIVE=local ./gradlew bootRun
 
