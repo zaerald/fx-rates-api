@@ -6,16 +6,16 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class DefaultRateProviderTest {
+class FakeRateProviderTest {
 
-    private final DefaultRateProvider defaultRateProvider = new DefaultRateProvider();
+    private final FakeRateProvider fakeRateProvider = FakeRateProvider.newInstance();
 
     @ParameterizedTest
     @CsvFileSource(resources = "/fakeRateProvider.csv", numLinesToSkip = 1)
     @DisplayName("GIVEN baseCurrency AND targetCurrency THEN provide the rate")
     void testGetRateProvider(double expectedRate, String baseCurrency, String targetCurrency) {
 
-        double rate = defaultRateProvider.getRate(baseCurrency, targetCurrency);
+        double rate = fakeRateProvider.getRate(baseCurrency, targetCurrency);
 
         assertThat(rate).isEqualTo(expectedRate);
     }

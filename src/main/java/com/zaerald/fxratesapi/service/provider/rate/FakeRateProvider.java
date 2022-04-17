@@ -1,27 +1,30 @@
 package com.zaerald.fxratesapi.service.provider.rate;
 
 import com.zaerald.fxratesapi.exception.NoRateFoundException;
+import com.zaerald.fxratesapi.exception.RateNotFoundException;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
-public final class DefaultRateProvider implements RateProvider {
+
+@NoArgsConstructor(staticName = "newInstance")
+public final class FakeRateProvider implements RateProvider {
 
     private static final String SEPARATOR = "-";
 
     private Map<String, Double> ratesMapping = new HashMap<>();
 
     @Override
-    public double getRate(String baseCurrency, String targetCurrency) throws NoRateFoundException {
+    public double getRate(String baseCurrency, String targetCurrency) throws RateNotFoundException {
         if (ratesMapping.isEmpty()) {
             ratesMapping = generateRates();
         }
 
         Double rate = ratesMapping.get(String.join(SEPARATOR, baseCurrency, targetCurrency));
         if (rate == null)
-            throw new NoRateFoundException(baseCurrency, targetCurrency);
+            throw new RateNotFoundException(baseCurrency, targetCurrency);
         return rate;
     }
 

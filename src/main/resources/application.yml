@@ -6,3 +6,7 @@ server:
   error:
     include-message: always
     include-binding-errors: always
+
+foreign-exchange:
+  provider:
+    service: exchangeratesapi.io

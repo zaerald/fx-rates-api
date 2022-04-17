@@ -1,12 +1,13 @@
 package com.zaerald.fxratesapi.service.provider.symbol;
 
 import com.zaerald.fxratesapi.model.Symbol;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class DefaultSymbolProvider implements SymbolProvider {
+@NoArgsConstructor(staticName = "newInstance")
+public class FakeSymbolProvider implements SymbolProvider {
 
     @Override
     public List<Symbol> getCurrencySymbols() {
