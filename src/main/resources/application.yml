@@ -1,0 +1,8 @@
+springdoc:
+  packages-to-scan: com.zaerald.fxratesapi.controller
+  paths-to-match: /api/**
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
