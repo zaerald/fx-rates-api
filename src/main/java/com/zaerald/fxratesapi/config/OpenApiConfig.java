@@ -21,7 +21,7 @@ public class OpenApiConfig {
         return new Info()
             .title("FX Rates API")
             .description("FX Rate API Spring Boot Project")
-            .version("0.0.1-SNAPSHOT")
+            .version("0.0.1")
             .license(license());
     }
 

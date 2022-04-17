@@ -1,6 +1,6 @@
 package com.zaerald.fxratesapi.controller;
 
-import com.zaerald.fxratesapi.exception.NoRateFoundException;
+import com.zaerald.fxratesapi.exception.RateNotFoundException;
 import com.zaerald.fxratesapi.service.ExchangeService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -80,7 +80,7 @@ class ExchangeControllerTest {
         String target = "USD";
 
         given(exchangeService.exchange(base, target, 123d))
-            .willThrow(new NoRateFoundException(base, target));
+            .willThrow(new RateNotFoundException(base, target));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/exchange")
             .param("base", base)

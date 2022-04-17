@@ -2,7 +2,6 @@ package com.zaerald.fxratesapi.service.provider.symbol;
 
 import com.zaerald.fxratesapi.model.Symbol;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

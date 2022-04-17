@@ -1,7 +1,7 @@
 package com.zaerald.fxratesapi.service;
 
 import com.zaerald.fxratesapi.dto.ExchangeDto;
-import com.zaerald.fxratesapi.exception.NoRateFoundException;
+import com.zaerald.fxratesapi.exception.RateNotFoundException;
 import com.zaerald.fxratesapi.exception.UnsupportedSymbolException;
 import com.zaerald.fxratesapi.model.Symbol;
 import org.junit.jupiter.api.DisplayName;
@@ -118,24 +118,26 @@ class ExchangeServiceTest {
     @Test
     @DisplayName("GIVEN base AND target currency AND no rate was found THEN throw an exception")
     void testExchangeWithUnknownRate() {
+        String base = "USD";
+        String target = "PHP";
 
-        Symbol usd = Symbol.of("USD", "United States Dollar");
-        Symbol php = Symbol.of("PHP", "Philippine peso");
+        Symbol usd = Symbol.of(base, "United States Dollar");
+        Symbol php = Symbol.of(target, "Philippine peso");
 
-        given(currencySymbolService.from("USD"))
+        given(currencySymbolService.from(base))
             .willReturn(Optional.of(usd));
 
-        given(currencySymbolService.from("PHP"))
+        given(currencySymbolService.from(target))
             .willReturn(Optional.of(php));
 
         given(rateProviderService.getRate(usd, php))
-            .willThrow(new NoRateFoundException(usd.getCode(), php.getCode()));
+            .willThrow(new RateNotFoundException(usd.getCode(), php.getCode()));
 
-        assertThatThrownBy(() -> exchangeService.exchange("USD", "PHP", 10d))
-            .isInstanceOfSatisfying(NoRateFoundException.class, it ->
+        assertThatThrownBy(() -> exchangeService.exchange(base, target, 10d))
+            .isInstanceOfSatisfying(RateNotFoundException.class, it ->
                 assertThat(it.getMessage())
-                    .contains("USD")
-                    .contains("PHP")
+                    .contains(base)
+                    .contains(target)
             );
     }
 }

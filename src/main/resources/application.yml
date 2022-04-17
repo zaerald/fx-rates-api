@@ -10,3 +10,6 @@ server:
 foreign-exchange:
   provider:
     service: exchangeratesapi.io
+    # HTTPS is not supported on FREE plan
+    url: 'http://api.exchangeratesapi.io/v1'
+    accessKey: ${FX_API_KEY:''}

@@ -4,7 +4,7 @@ Please check the [REQUIREMENTS.md](./REQUIREMENTS.md) to review the purpose of t
 
 # Getting Started
 
-## Open API / Swagger
+## Open API / Swagger UI
 
 - API Docs: `{baseUrl}/v3/api-docs`
 - Swagger UI: `{baseUrl}/swagger-ui/index.html`
@@ -33,6 +33,8 @@ curl "$BASE_URL/exchange?base=AED&target=PHP&amount=1.5"
 ## Prerequisites
 
 - Java 11
+- API key from https://exchangeratesapi.io
+  - Use `fake` provider if you do not want to sign up. See "Changing Providers" section.
 
 ## Development
 
@@ -117,6 +119,18 @@ curl "$BASE_URL/provider"
 # Notes
 
 - Buying and selling currencies, will use the `/api/exchange` endpoint. Both of them will provide `base`, `target`, and the `amount` just in different context.
-  - For instance, when a user wants to BUY `USD` worth 10 `PHP` to another party, they will have `/api/exchange?base=PHP&target=USD&amount=10`.
-  - If they are going to sell 100 `PHP` to another party with `AED` currency, they will have `/api/exchange?base=PHP&target=AED&amount=100`.
- 
+  - For instance, when a user wants to BUY `USD` to another party, and they want to spend 10 `PHP`, they will have `/api/exchange?base=PHP&target=USD&amount=10`.
+  - If they are going to SELL 100 `PHP` to another party with `AED` currency, they will have `/api/exchange?base=PHP&target=AED&amount=100`.
+- We are only exposing three endpoints.
+  - `GET /api/exchange` - the only responsibility of this endpoint is to provide the value based from the derived `rate` of `base` and `target` currency. Selling and buying foreign currency can both use this endpoint, they just need to switch out the `base` and `target`.
+  - `GET /api/symbols` - list supported currency symbols
+  - `GET /api/provider` - to easily verify what provider is in use.
+    - exchange rates - default provider
+    - fake provider - provides limited symbols and rates
+- Here are some improvements/considerations for future development
+  - More logs and control
+  - Cached data are stored in memory, this can be improved by using a Redis or a similar service.
+  - Better handling of Access Token, we can set up a config server for the application bootstrap
+  - Ability to configure API timeouts
+  - Rate limiting and rate throttling
+  - Better API client design for future work if required, but right now, we only want to build URLs based on a path, it limits building complex queries.- 

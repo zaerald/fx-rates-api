@@ -1,13 +1,10 @@
 package com.zaerald.fxratesapi.service.provider.rate;
 
-import com.zaerald.fxratesapi.exception.NoRateFoundException;
 import com.zaerald.fxratesapi.exception.RateNotFoundException;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 @NoArgsConstructor(staticName = "newInstance")
 public final class FakeRateProvider implements RateProvider {

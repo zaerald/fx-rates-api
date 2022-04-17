@@ -1,5 +1,6 @@
 package com.zaerald.fxratesapi.config;
 
+import com.zaerald.fxratesapi.client.ExchangeRatesApiClient;
 import com.zaerald.fxratesapi.service.provider.symbol.ExchangeIoSymbolProvider;
 import com.zaerald.fxratesapi.service.provider.symbol.FakeSymbolProvider;
 import com.zaerald.fxratesapi.service.provider.symbol.SymbolProvider;
@@ -19,8 +20,8 @@ public class SymbolProviderConfig {
 
     @Bean
     @ConditionalOnMissingBean(SymbolProvider.class)
-    public SymbolProvider exchangeIoSymbolProvider() {
-        return ExchangeIoSymbolProvider.newInstance();
+    public SymbolProvider exchangeIoSymbolProvider(ExchangeRatesApiClient exchangeRatesApiClient) {
+        return ExchangeIoSymbolProvider.newInstance(exchangeRatesApiClient);
     }
 
 }

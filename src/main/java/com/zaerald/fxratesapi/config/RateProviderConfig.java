@@ -1,5 +1,6 @@
 package com.zaerald.fxratesapi.config;
 
+import com.zaerald.fxratesapi.client.ExchangeRatesApiClient;
 import com.zaerald.fxratesapi.service.provider.rate.ExchangeIoRateProvider;
 import com.zaerald.fxratesapi.service.provider.rate.FakeRateProvider;
 import com.zaerald.fxratesapi.service.provider.rate.RateProvider;
@@ -19,8 +20,8 @@ public class RateProviderConfig {
 
     @Bean
     @ConditionalOnMissingBean(RateProvider.class)
-    public RateProvider exchangeIoRateProvider() {
-        return ExchangeIoRateProvider.newInstance();
+    public RateProvider exchangeIoRateProvider(ExchangeRatesApiClient exchangeRatesApiClient) {
+        return ExchangeIoRateProvider.newInstance(exchangeRatesApiClient);
     }
 
 }

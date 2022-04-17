@@ -28,7 +28,7 @@ class CurrencySymbolServiceTest {
     @DisplayName("GIVEN a list of provided currency symbols THEN return the exact list")
     void testGetCurrencySymbols() {
         List<Symbol> symbols = List.of(
-            Symbol.of("TEST", "Some Test Symbol"),
+            Symbol.of("TEST", "some test symbol"),
             Symbol.of("ABC", "Alpha Beta Charlie"),
             Symbol.of("XYZ", "X-Ray Yankee Zulu")
         );
