@@ -4,6 +4,11 @@ Please check the [REQUIREMENTS.md](./REQUIREMENTS.md) to review the purpose of t
 
 # Getting Started
 
+## Open API / Swagger
+
+- API Docs: `{baseUrl}/v3/api-docs`
+- Swagger UI: `{baseUrl}/swagger-ui/index.html`
+
 ## Prerequisites
 
 - Java 11
